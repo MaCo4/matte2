@@ -1,4 +1,5 @@
-from numpy import matrix, finfo, zeros
+import sys
+from numpy import matrix, zeros
 
 
 def gaussian_elim_solve(a: matrix, b: matrix):
@@ -20,9 +21,9 @@ def gaussian_elim_solve(a: matrix, b: matrix):
     # j representerer rad- og søylenummer der vi skal lage pivotelement
     for j in range(0, rows - 1):
 
-        if abs(a[j, j]) < finfo(float).eps:
-            print("Zero pivot encountered at [{},{}]".format(j, j))
-            return
+        if abs(a[j, j]) < sys.float_info.min:
+            print("Zero pivot encountered at [{},{}]. The value is {} and eps is {}".format(j, j, a[j, j], sys.float_info.min))
+            # return
 
         for i in range(j + 1, rows):  # Itererer radene under nåværende pivot. i er raden vi skal eliminere nå
 
@@ -34,23 +35,52 @@ def gaussian_elim_solve(a: matrix, b: matrix):
             b[i] = b[i] - mult * b[j]
 
     x = zeros((rows, 1))
-    c = b.copy()
+    b = b.copy()
     for i in range(rows - 1, -1, -1):
         for j in range(i + 1, rows):
-            c[i] = c[i] - a[i, j] * x[j]
-        x[i] = c[i] / a[i, i]
+            b[i] = b[i] - a[i, j] * x[j]
+        x[i] = b[i] / a[i, i]
 
     return x
 
 
 if __name__ == "__main__":  # Testing under utviklingen
-    a = matrix([[1, 3, 5],
-                [2, 4, 6],
-                [2, 3, 5]])
-    b = matrix([[7],
-                [8],
-                [7]])
-    print(a, "\n", b)
+    a = matrix([[2, -2, -1],
+                [4, 1, -2],
+                [-2, 1, -1]])
+    b = matrix([[-2],
+                [1],
+                [-3]])
+
+    print("Oppgave a:")
+    print("A=\n", a, "\nb=\n", b)
     x = gaussian_elim_solve(a, b)
-    print("\nEtter Gaussing:")
-    print(a, "\n", b, "\n\n", x)
+    print("x=\n", x)
+
+
+
+    a = matrix([[1, 2, -1],
+                [0, 3, 1],
+                [2, -1, 1]])
+    b = matrix([[2],
+                [4],
+                [2]])
+
+    print("\nOppgave b:")
+    print("A=\n", a, "\nb=\n", b)
+    x = gaussian_elim_solve(a, b)
+    print("x=\n", x)
+
+
+
+    a = matrix([[2, 1, -4],
+                [1, -1, 1],
+                [-1, 3, -2]])
+    b = matrix([[-7],
+                [-2],
+                [6]])
+
+    print("\nOppgave c:")
+    print("A=\n", a, "\nb=\n", b)
+    x = gaussian_elim_solve(a, b)
+    print("x=\n", x)
