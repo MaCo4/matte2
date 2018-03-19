@@ -25,22 +25,23 @@ def lagA(n):
 def solve(A, b):
     y = spsolve(A, b)
     s = y.shape
-    f = y[s[0] - 1]
     return y[s[0] - 1]
 
 
-E = 1.3 * 10 ** 10  # N/m^2
-I = (0.3 * 0.03 ** 3) / 12  # I = (wd^3)/12
-# f(x) er konstant når massen er lik egenmassen, f(x) = -480*w*d*g
-fx = -480 * 0.3 * 0.03 * 9.81  # kg*m/s^2*m
+if __name__ == "__main__":
+    E = 1.3 * 10 ** 10  # N/m^2
+    I = (0.3 * 0.03 ** 3) / 12  # I = (wd^3)/12
+    # f(x) er konstant når massen er lik egenmassen, f(x) = -480*w*d*g
+    fx = -480 * 0.3 * 0.03 * 9.81  # kg*m/s^2*m
+    y_e = fx / (24 * E * I) * 2 ** 2 * (2 ** 2 - 4 * 2 * 2 + 6 * 2 ** 2)  # Eksakt verdi av y(2)
 
-for i in range(1, 12):
-    n = 10 * 2 ** i
-    print(i)
-    h = 2 / n  # h = L/n, der L = 2.0 meter
-    b = [(h ** 4 / (E * I)) * fx] * n
-    y2 = fx / (24 * E * I) * 2 ** 2 * (2 ** 2 - 4 * 2 * 2 + 6 * 2 ** 2)
-    A = lagA(n)
-    #  AI = inv(A)
-    # print("Kondisjonstall: ", norm(A)*norm(AI))
-    print("y: ", y2 - solve(lagA(n), b))
+    for i in range(0, 12):
+        n = 10 * 2 ** i
+        h = 2 / n  # h = L/n, der L = 2.0 meter
+        b = [(h ** 4 / (E * I)) * fx] * n
+        A = lagA(n)
+        #  AI = inv(A)
+        # print("Kondisjonstall: ", norm(A)*norm(AI))
+
+        print("n={}, b=".format(n), b)
+        print("Feil i x=L: {}\n".format(y_e - solve(lagA(n), b)))
