@@ -22,7 +22,8 @@ if __name__ == "__main__":
     y = [3039585530, 3707475887, 5281653820, 6079603571]
 
     exp_model = exponential_model_linearize(x, y)
-    c1 = exp(exp_model['c'][0, 0])  # Siden k = ln c1, er c1 = e^k
+    exp_model_c = exp_model['c']
+    c1 = exp(exp_model_c[0, 0])  # Siden k = ln c1, er c1 = e^k
 
-    y_exp_model = lambda t: c1 * exp(exp_model['c'][1, 0] * t)
+    y_exp_model = lambda t: c1 * exp(exp_model_c[1, 0] * t)
     print("y_exp_model(1980) = {}".format(y_exp_model(1980)))

@@ -3,7 +3,7 @@ from Ch27_CP3 import newton_multivariate
 
 
 if __name__ == "__main__":
-    def F(v: matrix):
+    def F(v: matrix) -> matrix:
         x, y, z = v[0, 0], v[1, 0], v[2, 0]
         return matrix([
             [(x - 1)**2 + (y + 2)**2 + z**2 - 25],
@@ -11,7 +11,7 @@ if __name__ == "__main__":
             [(x - 4)**2 + (y + 2)**2 + (z - 3)**2 - 25]
         ])
 
-    def DF(v: matrix):
+    def DF(v: matrix) -> matrix:
         x, y, z = v[0, 0], v[1, 0], v[2, 0]
         return matrix([
             [2 * x - 2, 2 * y + 4, 2 * z],
