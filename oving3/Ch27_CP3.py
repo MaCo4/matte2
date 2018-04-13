@@ -14,16 +14,14 @@ def newton_multivariate(x0: matrix, F, DF, iterations: int) -> matrix:
 
 if __name__ == "__main__":
     def F(x: matrix) -> matrix:
-        u = x[0, 0]
-        v = x[1, 0]
+        u, v = x[0, 0], x[1, 0]
         return matrix([
             [u**3 - v**3 + u],
             [u**2 + v**2 - 1]
         ])
 
     def DF(x: matrix) -> matrix:
-        u = x[0, 0]
-        v = x[1, 0]
+        u, v = x[0, 0], x[1, 0]
         return matrix([
             [3 * u**2 + 1, -3 * v**2],
             [2 * u, 2 * v]
